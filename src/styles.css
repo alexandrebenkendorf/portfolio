@@ -1,0 +1,394 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --color-accent-50: #eef2ff;
+  --color-accent-100: #e0e7ff;
+  --color-accent-200: #c7d2fe;
+  --color-accent-300: #a5b4fc;
+  --color-accent-400: #818cf8;
+  --color-accent-500: #6366f1;
+  --color-accent-600: #4f46e5;
+  --color-accent-700: #4338ca;
+  --color-accent-800: #3730a3;
+  --color-accent-900: #312e81;
+  --color-accent: var(--color-accent-600);
+  --color-accent-text: var(--color-accent-600);
+  --color-bg: #ffffff;
+  --color-card-bg: #ffffff;
+  --color-text: #11161b;
+  --color-text-strong: #3a4148;
+  --color-text-faint: #6b747c;
+  --color-text-faintest: #aeb4ba;
+  --color-border: rgba(17, 22, 27, 0.08);
+  --color-border-soft: rgba(17, 22, 27, 0.05);
+  --color-border-strong: rgba(17, 22, 27, 0.1);
+  --color-tag-bg: #f6f7f8;
+  --color-hover-bg: #fafbfb;
+  --color-timeline-line: #d7d5d0;
+  --color-tl-dot-border: #c7cbcf;
+  --animate-marquee: marquee 120s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #0b0e13;
+    --color-card-bg: #161b22;
+    --color-text: #edeff2;
+    --color-text-strong: #c7ccd2;
+    --color-text-faint: #767d86;
+    --color-text-faintest: #585e66;
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-border-soft: rgba(255, 255, 255, 0.06);
+    --color-border-strong: rgba(255, 255, 255, 0.12);
+    --color-tag-bg: #1a1f26;
+    --color-hover-bg: #171b21;
+    --color-timeline-line: #2a2f38;
+    --color-tl-dot-border: #3a4047;
+    --color-accent-text: var(--color-accent-400);
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-accent-text: var(--color-accent-400);
+  --color-bg: #0b0e13;
+  --color-card-bg: #161b22;
+  --color-text: #edeff2;
+  --color-text-strong: #c7ccd2;
+  --color-text-faint: #767d86;
+  --color-text-faintest: #585e66;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-soft: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.12);
+  --color-tag-bg: #1a1f26;
+  --color-hover-bg: #171b21;
+  --color-timeline-line: #2a2f38;
+  --color-tl-dot-border: #3a4047;
+}
+
+html,
+body,
+#root {
+  @apply min-h-dvh w-full m-0 p-0;
+}
+
+html {
+  @apply scroll-smooth scroll-pt-22 overflow-x-clip;
+}
+
+body {
+  @apply m-0 overflow-x-clip bg-bg font-sans transition-colors duration-250;
+}
+
+@layer base {
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  [tabindex] {
+    @apply outline-accent outline-0 outline-offset-0 transition-[outline-width,outline-offset,outline-color] duration-150;
+  }
+}
+
+:focus-visible {
+  @apply outline-2 outline-offset-2;
+}
+
+/* ---- skills / tag pills ---- */
+.tag-hoverable {
+  @apply inline-block transition-[background,border-color,color,translate] duration-200;
+}
+.tag-hoverable:hover {
+  @apply -translate-y-0.75 border-accent bg-accent text-white;
+}
+
+/* ---- scroll-reveal ---- */
+@keyframes logoReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+@keyframes pulseRing {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+@keyframes tagPopIn {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.logo-mark {
+  animation: logoReveal 1s cubic-bezier(0.16, 0.8, 0.3, 1) both;
+}
+
+/* ---- availability pulse dot ---- */
+.pulse-dot {
+  @apply relative h-2 w-2 shrink-0 rounded-full bg-[#22c55e];
+}
+.pulse-dot::after {
+  content: '';
+  @apply absolute inset-0 rounded-full bg-[#22c55e];
+  animation: pulseRing 2s ease-out infinite;
+}
+
+/* ---- read more / expand ---- */
+.expand-body {
+  @apply mt-0 grid opacity-0;
+  grid-template-rows: 0fr;
+  transition:
+    grid-template-rows 0.4s ease,
+    opacity 0.3s ease,
+    margin-top 0.3s ease;
+}
+.expand-body > * {
+  @apply overflow-hidden;
+  min-height: 0;
+}
+.expand-body.is-open {
+  @apply mt-0 opacity-100;
+  grid-template-rows: 1fr;
+}
+
+/* ---- career timeline ---- */
+.timeline-item {
+  @apply relative pl-7;
+}
+.timeline-item::before {
+  content: '';
+  @apply absolute top-0 bottom-0 left-1 z-0 w-0.5 bg-timeline-line;
+}
+.timeline-item:last-child::before {
+  @apply bottom-auto h-7.5;
+}
+.timeline-item.bridge-gap::before {
+  @apply -bottom-5;
+}
+
+.tl-dot {
+  @apply absolute top-7 left-0.5 z-2 h-1.5 w-1.5 rounded-full border-2 border-tl-dot-border bg-bg transition-[background,border-color,width,height,top,left] duration-400;
+}
+.timeline-item.line-passed .tl-dot {
+  @apply border-accent bg-accent;
+}
+.tl-dot.current {
+  @apply h-3 w-3 border-2 border-bg bg-accent;
+}
+/* the "now" card has its own row geometry, so its dot needs its own offset */
+.timeline-item.bridge-gap .tl-dot.current {
+  @apply top-7.5 -left-px;
+}
+/* a regular row's dot keeps the same center as it grows into .current */
+.timeline-item:not(.bridge-gap) .tl-dot.current {
+  @apply top-6.25 -left-px;
+}
+.tl-dot.current::after {
+  content: '';
+  @apply absolute inset-0 rounded-full border-2 border-accent;
+  animation: pulseRing 2.6s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
+}
+
+.exp-date {
+  @apply transition-colors duration-300;
+}
+.timeline-item.line-passed .exp-date {
+  @apply text-accent-text;
+}
+.exp-role {
+  @apply transition-colors duration-300;
+}
+.timeline-item.line-passed .exp-role {
+  @apply text-text;
+}
+.exp-company {
+  @apply transition-colors duration-300;
+}
+.timeline-item.line-passed .exp-company {
+  @apply text-accent-text;
+}
+.timeline-item:not(.current):not(.line-passed) .read-more {
+  @apply text-slate-500;
+}
+.timeline-item.line-passed .read-more {
+  @apply text-accent-text;
+}
+@layer base {
+  .exp-tag {
+    @apply opacity-50 transition-opacity duration-300;
+  }
+  .timeline-item.line-passed .exp-tag {
+    @apply opacity-100;
+  }
+}
+
+.tag-pop {
+  animation: tagPopIn 0.3s cubic-bezier(0.16, 0.8, 0.3, 1) both;
+}
+
+.timeline-track {
+  @apply relative flex flex-col gap-0;
+}
+.timeline-progress {
+  @apply absolute top-0 left-1 z-[1] h-0 w-0.5 bg-accent;
+}
+
+/* ---- hero floating mockup cards (intentionally theme-fixed) ---- */
+.float-card {
+  @apply relative overflow-hidden rounded-[18px] border border-border bg-white shadow-[0_16px_36px_rgba(17,22,27,0.1)];
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1),
+    box-shadow 0.25s ease;
+}
+.float-card.design {
+  @apply -rotate-[8deg];
+}
+.float-card.develop {
+  @apply -mt-12 ml-32 rotate-6 border-[rgba(255,255,255,0.12)] bg-[#0b1016] shadow-[0_16px_36px_rgba(0,0,0,0.35)];
+}
+.float-card:hover {
+  @apply z-[5] shadow-[0_30px_56px_rgba(17,22,27,0.2)];
+}
+.float-card .spotlight {
+  @apply absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 pointer-events-none;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.55), transparent 55%);
+}
+.float-card.develop .spotlight {
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.14), transparent 55%);
+}
+.float-card:hover .spotlight {
+  @apply opacity-100;
+}
+.parallax-design,
+.parallax-develop {
+  @apply will-change-transform;
+}
+
+/* ---- hero logo marquee ---- */
+.logo-img {
+  @apply h-7.5 w-auto grayscale opacity-50 transition-[filter,opacity] duration-250;
+}
+.logo-img:hover {
+  @apply opacity-100 grayscale-0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .logo-img {
+    @apply brightness-0 invert opacity-50;
+  }
+  :root:not([data-theme='light']) .logo-img:hover {
+    @apply brightness-0 invert opacity-100;
+  }
+}
+:root[data-theme='dark'] .logo-img {
+  @apply brightness-0 invert opacity-50;
+}
+:root[data-theme='dark'] .logo-img:hover {
+  @apply brightness-0 invert opacity-100;
+}
+
+.scroll-cue {
+  @apply text-text-faint hover:text-accent flex flex-col items-center gap-1 font-mono text-[12px] tracking-[0.04em] uppercase transition-[color,opacity] duration-300;
+}
+.scroll-cue.is-hidden {
+  @apply pointer-events-none opacity-0;
+}
+
+/* ---- icon-button tooltips ---- */
+.icon-tooltip {
+  @apply bg-text text-bg pointer-events-none absolute z-10 rounded-md px-2 py-1 font-mono text-[11px] whitespace-nowrap opacity-0;
+  transition:
+    opacity 0.2s cubic-bezier(0.16, 0.8, 0.3, 1),
+    transform 0.2s cubic-bezier(0.16, 0.8, 0.3, 1);
+}
+.icon-tooltip-side {
+  @apply top-1/2 left-full ml-2.5 -translate-y-1/2 translate-x-1;
+}
+.group:hover .icon-tooltip-side {
+  @apply translate-x-0 opacity-100;
+}
+.icon-tooltip-top {
+  @apply bottom-full left-1/2 mb-2 -translate-x-1/2 translate-y-1;
+}
+.group:hover .icon-tooltip-top {
+  @apply translate-y-0 opacity-100;
+}
+
+/* ---- mobile top-bar dropdown menu ---- */
+.mobile-menu {
+  @apply bg-bg border-border absolute top-full right-0 left-0 flex h-[calc(100vh-(--spacing(16)))] flex-col gap-1 overflow-y-auto border-t border-b p-8 opacity-0 shadow-[0_24px_40px_-16px_rgba(0,0,0,0.35)];
+  pointer-events: none;
+  transform: translateY(-16px);
+  transition:
+    opacity 0.25s cubic-bezier(0.16, 0.8, 0.3, 1),
+    transform 0.25s cubic-bezier(0.16, 0.8, 0.3, 1);
+}
+.mobile-menu.is-open {
+  @apply opacity-100;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.accent-tint-hover:hover {
+  background-color: var(--color-accent-50);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .accent-tint-hover:hover {
+    background-color: rgba(99, 102, 241, 0.16);
+  }
+}
+:root[data-theme='dark'] .accent-tint-hover:hover {
+  background-color: rgba(99, 102, 241, 0.16);
+}
+
+.hamburger-box {
+  @apply relative flex h-3.5 w-4 flex-col justify-between;
+}
+.hamburger-line {
+  @apply bg-current block h-0.5 w-full rounded-full;
+  transition:
+    transform 0.25s cubic-bezier(0.16, 0.8, 0.3, 1),
+    opacity 0.25s ease;
+}
+.hamburger-box.is-open .hamburger-line:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.hamburger-box.is-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-box.is-open .hamburger-line:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* ---- reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

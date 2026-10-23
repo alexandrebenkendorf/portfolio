@@ -1,0 +1,15 @@
+{
+  "name": "Alexandre Benkendorf",
+  "short_name": "Benkendorf",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "181x181"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+#!/usr/bin/env sh
+# Codex review of the commits being pushed: blocks the push on any P0–P2 finding (P3 nits are only printed).
+# Skip once with `git push --no-verify`. Skipped when the Codex CLI is not installed.
+
+if ! command -v codex >/dev/null 2>&1; then
+  echo "pre-push: codex not found, skipping the Codex review."
+  exit 0
+fi
+
+ZERO_SHA=0000000000000000000000000000000000000000
+DEFAULT_BASE=origin/main
+# Ranges that already passed, so retrying a push (e.g. after a network error) doesn't review it again.
+PASSED_FILE="$(git rev-parse --git-dir)/codex-review-passed"
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+cat >"$TMP_DIR/schema.json" <<'EOF'
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "findings"],
+  "properties": {
+    "summary": { "type": "string" },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["priority", "title", "file", "line", "body"],
+        "properties": {
+          "priority": { "type": "integer", "minimum": 0, "maximum": 3 },
+          "title": { "type": "string" },
+          "file": { "type": "string" },
+          "line": { "type": "integer" },
+          "body": { "type": "string" }
+        }
+      }
+    }
+  }
+}
+EOF
+
+blocked=0
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  # Branch deletion: nothing to review.
+  if [ "$local_sha" = "$ZERO_SHA" ]; then
+    continue
+  fi
+
+  # Existing remote branch: only the new commits. New branch: everything since it left master.
+  if [ "$remote_sha" != "$ZERO_SHA" ] && git cat-file -e "$remote_sha^{commit}" 2>/dev/null; then
+    base=$remote_sha
+  else
+    base=$(git merge-base "$DEFAULT_BASE" "$local_sha" 2>/dev/null || true)
+  fi
+  # No shared history (e.g. the very first push, or no fetch yet): review the whole diff
+  # against an empty tree instead of blocking.
+  [ -z "$base" ] && base=$(git hash-object -t tree /dev/null)
+  if git diff --quiet "$base" "$local_sha"; then
+    continue
+  fi
+
+  range="$base..$local_sha"
+  if [ -f "$PASSED_FILE" ] && grep -qxF "$range" "$PASSED_FILE"; then
+    echo "pre-push: $remote_ref already passed the Codex review."
+    continue
+  fi
+  echo "pre-push: Codex is reviewing $remote_ref ($(git rev-list --count "$range") commit(s)), this can take a few minutes..."
+
+  prompt="Review the code changes in the git range $range (run \`git diff $base $local_sha\` and \`git log $range\`).
+Read files at the pushed revision with \`git show $local_sha:<path>\`, the working tree may differ.
+Report only real defects introduced by these changes (bugs, regressions, security issues, missing migrations),
+not style preferences. Priorities: 0 = critical, 1 = must fix, 2 = should fix before merging, 3 = nit.
+Use paths relative to the repository root. Return an empty findings list when nothing needs changing."
+
+  if ! codex exec --sandbox read-only --ephemeral --output-schema "$TMP_DIR/schema.json" \
+    -o "$TMP_DIR/result.json" "$prompt" </dev/null >"$TMP_DIR/codex.log" 2>&1; then
+    echo "pre-push: the Codex review failed, push blocked (skip with --no-verify). Last output:"
+    tail -n 20 "$TMP_DIR/codex.log"
+    exit 1
+  fi
+
+  # Prints the review; exit 0 = passed, 1 = P0–P2 findings, 2 = unreadable result. Node is already needed by husky.
+  status=0
+  node -e '
+    let review;
+    try {
+      review = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
+    } catch {
+      process.exit(2);
+    }
+    console.log(`\n${review.summary}`);
+    for (const f of [...review.findings].sort((a, b) => a.priority - b.priority)) {
+      console.log(`\n[P${f.priority}] ${f.title} — ${f.file}:${f.line}\n  ${f.body}`);
+    }
+    console.log("");
+    process.exit(review.findings.some((f) => f.priority <= 2) ? 1 : 0);
+  ' "$TMP_DIR/result.json" || status=$?
+
+  if [ "$status" = 2 ]; then
+    echo "pre-push: could not read the Codex review result, push blocked (skip with --no-verify)."
+    exit 1
+  fi
+  if [ "$status" = 1 ]; then
+    blocked=1
+  else
+    echo "$range" >>"$PASSED_FILE"
+  fi
+done
+
+if [ "$blocked" = 1 ]; then
+  echo "pre-push: Codex requires changes (P0–P2 findings above), push blocked. Skip with git push --no-verify."
+  exit 1
+fi
+
+exit 0

@@ -1,0 +1,4 @@
+{
+  "extends": "@alexandrebenkendorf/frontend-tooling/tsconfig/node.json",
+  "include": ["vite.config.ts", "vite.config.mts", "*.config.ts", "*.config.mts", "scripts/**/*"]
+}
