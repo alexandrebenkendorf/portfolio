@@ -37,7 +37,10 @@ export function ExperienceReadMore({
             className="read-more"
             color={readMoreColor}
           />
-          <div className={clsx('expand-body', isOpen && 'is-open')}>
+          <div
+            className={clsx('expand-body', isOpen && 'is-open')}
+            inert={!isOpen}
+          >
             <ul className="text-text-strong m-0 flex flex-col gap-3 pl-4.5 text-sm leading-[1.6]">
               {bullets?.map((bullet) => (
                 <li key={bullet}>{bullet}</li>

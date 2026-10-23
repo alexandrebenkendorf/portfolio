@@ -51,6 +51,7 @@ export function ScrollToButton({
     <a
       href={href}
       className={clsx('scroll-cue', { 'is-hidden': !isVisible }, className)}
+      inert={!isVisible}
     >
       {iconPosition === 'start' && icon}
       <span>{label}</span>
