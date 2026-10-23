@@ -22,7 +22,7 @@ function LanguageLabel({ label, isActive, sizeClasses }: LanguageLabelProps) {
       className={clsx(
         'relative z-10 font-mono transition-colors duration-200',
         sizeClasses,
-        isActive ? 'text-text' : 'text-slate-500'
+        isActive ? 'text-text' : 'text-slate-600'
       )}
     >
       {label}
@@ -75,7 +75,7 @@ export function LanguageSwitcher({ language, onSetLanguage, size = 'medium' }: L
   return (
     <button
       type="button"
-      aria-label={isPortuguese ? t('sidebar.switchToEnglish') : t('sidebar.switchToPortuguese')}
+      aria-label={`PT / EN, ${isPortuguese ? t('sidebar.switchToEnglish') : t('sidebar.switchToPortuguese')}`}
       onClick={() => onSetLanguage(isPortuguese ? 'en' : 'pt')}
       className={`bg-tag-bg border-border relative flex cursor-pointer items-center rounded-full border ${container}`}
     >
