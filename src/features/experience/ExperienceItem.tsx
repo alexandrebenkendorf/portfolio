@@ -24,7 +24,7 @@ export function ExperienceItem({ entry }: { entry: ExperienceEntry }) {
             {entry.company} <span className="text-slate-400 font-medium">{entry.companyMeta}</span>
           </div>
         </div>
-        <div className="text-slate-500 text-sm">{entry.description}</div>
+        <div className="text-text-faint text-sm">{entry.description}</div>
 
         <ExperienceReadMore
           bullets={entry.bullets}

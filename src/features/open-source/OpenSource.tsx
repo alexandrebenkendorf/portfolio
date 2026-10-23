@@ -32,7 +32,7 @@ export function OpenSource() {
               <div className="flex flex-col gap-4 grow">
                 <div className="flex flex-col gap-2">
                   <h3 className="text-text m-0 font-bold">{t(`openSourceProjects.${project.id}.title`)}</h3>
-                  <p className="text-slate-500 m-0 text-sm leading-[1.6]">
+                  <p className="text-text-muted-strong m-0 text-sm leading-[1.6]">
                     {t(`openSourceProjects.${project.id}.description`)}
                   </p>
                 </div>

@@ -29,7 +29,7 @@ export function Hero() {
               <h1 className="text-text m-0 text-4xl sm:text-4xl leading-[1.2] font-bold tracking-[-0.02em]">
                 {t('hero.heading')}
               </h1>
-              <p className="text-slate-500 m-0 max-w-120 text-lg leading-[1.6]">{t('hero.paragraph')}</p>
+              <p className="text-text-faint m-0 max-w-120 text-lg leading-[1.6]">{t('hero.paragraph')}</p>
             </div>
 
             <Stats />

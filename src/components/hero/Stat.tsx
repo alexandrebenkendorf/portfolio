@@ -15,7 +15,7 @@ export function Stat({ target, suffix = '', label }: StatProps) {
       >
         0{suffix}
       </span>
-      <span className="text-slate-500 font-mono text-xs">{label}</span>
+      <span className="text-text-faint font-mono text-xs">{label}</span>
     </div>
   );
 }
