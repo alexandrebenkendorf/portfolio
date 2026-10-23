@@ -1,18 +1,16 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI} ^/assets/
+  RewriteRule .* - [E=CACHE_LONG:1]
+</IfModule>
+
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/html "access plus 0 seconds"
-  ExpiresByType application/javascript "access plus 1 year"
-  ExpiresByType text/css "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 year"
-  ExpiresByType image/png "access plus 1 year"
-  ExpiresByType image/webp "access plus 1 year"
-  ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
 
 <IfModule mod_headers.c>
-  <FilesMatch "\.(js|css|svg|png|jpg|jpeg|webp|woff2?)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
-  </FilesMatch>
+  Header set Cache-Control "public, max-age=31536000, immutable" env=CACHE_LONG
   <FilesMatch "\.html$">
     Header set Cache-Control "no-cache"
   </FilesMatch>
