@@ -24,7 +24,7 @@ Before you execute a task, you must check for additional skills that may be vend
 
 ## Repo composition
 
-- Personal portfolio site for alexandrebenkendorf.com.br
+- Personal portfolio site for alexandrebenkendorf.com
 - Vite + React + TypeScript, no backend — static build, no server
 - Tailwind CSS v4 for styling, Vitest + React Testing Library for tests
 - `src/features/<feature>/` — one folder per content page section (component, data, types, hooks, assets together); `src/components/<component>/` — structural/layout pieces that aren't a content section (topbar, sidebar, hero); `src/shared/` — cross-feature hooks and i18n

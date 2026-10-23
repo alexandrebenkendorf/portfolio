@@ -4,8 +4,8 @@
 
 ## Sections
 
-- [Skills & expertise](https://alexandrebenkendorf.com.br/#stack): Technical stack and areas of expertise, grouped by category.
-- [Experience](https://alexandrebenkendorf.com.br/#experience): Professional history, from current role back through earlier positions.
+- [Skills & expertise](https://alexandrebenkendorf.com/#stack): Technical stack and areas of expertise, grouped by category.
+- [Experience](https://alexandrebenkendorf.com/#experience): Professional history, from current role back through earlier positions.
 
 ## Contact
 
