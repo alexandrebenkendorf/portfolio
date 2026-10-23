@@ -21,7 +21,7 @@ export function FloatingCards() {
             <span className="inline-block h-2.25 w-2.25 rounded-full bg-[#FF5F57]" />
             <span className="inline-block h-2.25 w-2.25 rounded-full bg-[#FFBD2E]" />
             <span className="inline-block h-2.25 w-2.25 rounded-full bg-[#28C840]" />
-            <span className="text-slate-300 ml-auto font-mono text-xs">{t('hero.designLabel')}</span>
+            <span className="text-slate-500 ml-auto font-mono text-xs">{t('hero.designLabel')}</span>
           </div>
           <div className="flex flex-col gap-2.5 p-4.5">
             <div className="h-2.75 w-3/5 rounded-[3px] bg-[#E3E6E8]" />
