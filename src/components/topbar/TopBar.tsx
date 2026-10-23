@@ -62,7 +62,10 @@ export function TopBar({ theme, onToggleTheme, language, onSetLanguage }: TopBar
         </Button>
       </div>
 
-      <div className={clsx('mobile-menu', isMenuOpen && 'is-open')}>
+      <div
+        className={clsx('mobile-menu', isMenuOpen && 'is-open')}
+        inert={!isMenuOpen}
+      >
         <SitePanel
           theme={theme}
           onToggleTheme={onToggleTheme}
