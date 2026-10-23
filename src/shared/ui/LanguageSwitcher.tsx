@@ -22,7 +22,7 @@ function LanguageLabel({ label, isActive, sizeClasses }: LanguageLabelProps) {
       className={clsx(
         'relative z-10 font-mono transition-colors duration-200',
         sizeClasses,
-        isActive ? 'text-text' : 'text-slate-600'
+        isActive ? 'text-text' : 'text-text-muted-strong'
       )}
     >
       {label}

@@ -21,6 +21,7 @@
   --color-text-strong: #3a4148;
   --color-text-faint: #6b747c;
   --color-text-faintest: #aeb4ba;
+  --color-text-muted-strong: #475569;
   --color-border: rgba(17, 22, 27, 0.08);
   --color-border-soft: rgba(17, 22, 27, 0.05);
   --color-border-strong: rgba(17, 22, 27, 0.1);
@@ -45,6 +46,7 @@
     --color-text-strong: #c7ccd2;
     --color-text-faint: #767d86;
     --color-text-faintest: #585e66;
+    --color-text-muted-strong: #767d86;
     --color-border: rgba(255, 255, 255, 0.1);
     --color-border-soft: rgba(255, 255, 255, 0.06);
     --color-border-strong: rgba(255, 255, 255, 0.12);
@@ -64,6 +66,7 @@
   --color-text-strong: #c7ccd2;
   --color-text-faint: #767d86;
   --color-text-faintest: #585e66;
+  --color-text-muted-strong: #767d86;
   --color-border: rgba(255, 255, 255, 0.1);
   --color-border-soft: rgba(255, 255, 255, 0.06);
   --color-border-strong: rgba(255, 255, 255, 0.12);
