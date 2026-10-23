@@ -29,7 +29,7 @@ Before you execute a task, you must check for additional skills that may be vend
 - Tailwind CSS v4 for styling, Vitest + React Testing Library for tests
 - `src/features/<feature>/` — one folder per content page section (component, data, types, hooks, assets together); `src/components/<component>/` — structural/layout pieces that aren't a content section (topbar, sidebar, hero); `src/shared/` — cross-feature hooks and i18n
 - Shared tooling: `@alexandrebenkendorf/frontend-tooling` (ESLint, Prettier, TypeScript configs)
-- Solo project — no CI/CD configured yet
+- Solo project — CI/CD via GitHub Actions (`.github/workflows/ci.yml`): lint/format/typecheck/test/build on every push and PR to `main`, auto-deploy via rsync over SSH on push to `main`
 
 ---
 
