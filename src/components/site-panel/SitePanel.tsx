@@ -34,7 +34,7 @@ export function SitePanel({ theme, onToggleTheme, language, onSetLanguage, onNav
         </span>
         <span
           className={clsx(
-            'text-slate-500 font-mono tracking-wider leading-relaxed uppercase',
+            'text-text-faint font-mono tracking-wider leading-relaxed uppercase',
             isTouchFriendly ? 'text-sm' : 'text-xs'
           )}
         >
@@ -43,7 +43,7 @@ export function SitePanel({ theme, onToggleTheme, language, onSetLanguage, onNav
       </div>
 
       <div className="flex flex-col gap-4">
-        <div className={clsx('text-slate-500 flex items-center gap-2', isTouchFriendly ? 'text-base' : 'text-sm')}>
+        <div className={clsx('text-text-faint flex items-center gap-2', isTouchFriendly ? 'text-base' : 'text-sm')}>
           <IoLocationOutline
             size={14}
             aria-hidden="true"
@@ -51,7 +51,7 @@ export function SitePanel({ theme, onToggleTheme, language, onSetLanguage, onNav
           {t('sidebar.location')}
         </div>
 
-        <div className={clsx('text-slate-500 flex items-center gap-2', isTouchFriendly ? 'text-base' : 'text-sm')}>
+        <div className={clsx('text-text-faint flex items-center gap-2', isTouchFriendly ? 'text-base' : 'text-sm')}>
           <IoGlobeOutline
             size={14}
             aria-hidden="true"
@@ -128,7 +128,7 @@ export function SitePanel({ theme, onToggleTheme, language, onSetLanguage, onNav
           <div className={clsx('text-text font-bold', isTouchFriendly ? 'text-lg' : 'text-[17px]')}>
             {t('sidebar.contactHeading')}
           </div>
-          <p className="text-slate-500 m-0 text-sm leading-[1.6]">{t('sidebar.contactBlurb')}</p>
+          <p className="text-text-faint m-0 text-sm leading-[1.6]">{t('sidebar.contactBlurb')}</p>
         </div>
         <ContactLinks />
       </div>
